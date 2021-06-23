@@ -20,10 +20,10 @@ phases:
   post_build:
     commands:
       # Clear S3 bucket.
-      - aws s3 rm s3://trtblogangular9 --recursive
+      - aws s3 rm s3://new-angular-code-cdn --recursive
       - echo S3 bucket is cleared.
       # Copy dist folder to S3 bucket, As of Angular 6, builds are stored inside an app folder in distribution and not at the root of the dist folder
-      - aws s3 cp dist/testingStars s3://trtblogangular9 --recursive --acl public-read  
+      - aws s3 cp dist/testingStars s3://new-angular-code-cdn --recursive --acl public-read  
       - echo Build completed on `date`
 # artifacts:
 #     files:
