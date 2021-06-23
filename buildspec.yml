@@ -1,0 +1,32 @@
+version: 0.2
+
+env:
+  variables:
+    CODEBUILD_SRC_DIR: "ci-cd-angular9"
+phases:
+  install:
+    runtime-versions:
+      nodejs: 10
+    commands:
+      - npm i
+  pre_build:
+    commands:
+      - npm run lint
+      - npm run start & npx wait-on http://localhost:4200
+      - npx cypress run
+  build:
+    commands:
+      - npm run build
+  post_build:
+    commands:
+      # Clear S3 bucket.
+      - aws s3 rm s3://trtblogangular9 --recursive
+      - echo S3 bucket is cleared.
+      # Copy dist folder to S3 bucket, As of Angular 6, builds are stored inside an app folder in distribution and not at the root of the dist folder
+      - aws s3 cp dist/testingStars s3://trtblogangular9 --recursive --acl public-read  
+      - echo Build completed on `date`
+# artifacts:
+#     files:
+#         - '**/*.*'
+#     discard-paths: yes
+#     base-directory: 'dist/testingStars'
