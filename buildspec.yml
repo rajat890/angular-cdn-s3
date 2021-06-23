@@ -13,7 +13,7 @@ phases:
     commands:
       - npm run lint
       - npm run start & npx wait-on http://localhost:4200
-      - npx cypress run
+  #   - npx cypress run
   build:
     commands:
       - npm run build
